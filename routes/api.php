@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\V1\ProductAPIController;
+use App\Http\Controllers\API\APIAuthenticationController;
 
 /*
     // Default Sacntum Route
@@ -13,11 +14,16 @@ use App\Http\Controllers\API\V1\ProductAPIController;
 
 
 
-// Products API
-
+// Products API Routes
 Route::
-    prefix('v1')                     // Apply API Versioning and auth:sanctum middleware
-    // ->middleware('auth:sanctum') // Use auth:sanctum Middleware for Authentication
+    prefix('v1') // Apply API Versioning ('v1')
     ->group(function() {
-        Route::get('/products', [ProductAPIController::class, 'index']);
-});
+        // Publicly Accessible Routes (No Authentication Required)
+        Route::post('/authenticate', [APIAuthenticationController::class, 'authenticate']); // API Login/Authenticate Route
+
+        // Authenticated Routes (Authentication Required) using 'auth:sanctum' Middleware    // User must send the 'Authroization' Header with the 'Bearer' Token they received from the 'authenticate' route
+        Route::middleware('auth:sanctum')->group(function() { // Use 'auth:sanctum' Middleware for Authentication
+            Route::get('/products', [ProductAPIController::class, 'index']); // All Products
+        });
+    })
+;

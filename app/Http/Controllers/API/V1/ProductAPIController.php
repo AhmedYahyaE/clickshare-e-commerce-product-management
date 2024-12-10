@@ -18,7 +18,7 @@ class ProductAPIController extends Controller
 
 
 
-    public function index() {
+    public function index(): ProductCollection {
         return new ProductCollection($this->productRepositoryInstance->all());
     }
 
