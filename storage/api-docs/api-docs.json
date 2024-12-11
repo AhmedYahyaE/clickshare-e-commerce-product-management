@@ -1,0 +1,199 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Product API",
+        "description": "API documentation for products",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/authenticate": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User login and token generation",
+                "description": "Authenticate a user and generate a token for authenticated sessions.",
+                "operationId": "authenticateUser",
+                "requestBody": {
+                    "description": "User credentials for authentication",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password",
+                                    "token_name"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    },
+                                    "token_name": {
+                                        "type": "string",
+                                        "example": "my-app-token"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User authenticated and token generated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxMjM0NTY3OCwiZXhwIjoxNjg3MjMzMTYwfQ.HLpVZp19RReQoYZ6Sg-kHrElPnP4b7_FTA8vsU0E2y4"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get all products",
+                "description": "Retrieve a list of products with pagination.",
+                "operationId": "getAllProducts",
+                "responses": {
+                    "200": {
+                        "description": "A list of products",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Pagination"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Product": {
+                "required": [
+                    "id",
+                    "name",
+                    "description",
+                    "price",
+                    "quantity",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Product Name"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Product description."
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 19.99
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "example": 100
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-12-10T02:14:56"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-12-10T02:14:56"
+                    }
+                },
+                "type": "object"
+            },
+            "Pagination": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page": {
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "total": {
+                        "type": "integer",
+                        "example": 50
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Authentication"
+        },
+        {
+            "name": "Products",
+            "description": "Products"
+        }
+    ]
+}
