@@ -72,6 +72,7 @@ Follow the steps below to set up and run the application locally.
 
 Now, your application should be running locally at `http://localhost:8000`. To experiment with the application, you can either register a new user, or use the following existing user credentials: Emai: ahmed.yahya@example-email.com, Password: 123456
 
-## Products APIs Documentation:
+## Products API Documentation:
 
 You can access this applications API Documentation using L5 Swagger running locally on `http://localhost:8000/api/documentation`.
+Note:
