@@ -21,4 +21,22 @@ class ProductRepository implements ProductRepositoryInterface {
         return $this->productModel->paginate($perPage);
     }
 
+    public function getByID(int $id) {
+        return $this->productModel->findOrFail($id);
+    }
+
+    public function create(array $data) {
+        return $this->productModel->create($data);
+    }
+
+    public function update(int $id, array $data) {
+        $item = $this->productModel->findOrFail($id);
+        return $item->update($data);
+    }
+
+    public function delete(int $id) {
+        $item = $this->productModel->findOrFail($id);
+        return $item->delete();
+    }
+
 }

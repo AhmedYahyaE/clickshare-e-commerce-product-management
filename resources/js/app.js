@@ -10,21 +10,6 @@ Alpine.start();
 
 
 // Custom JS
-// function getAuthenticationToken() {
-
-//     fetch('http://127.0.0.1:8000/api/v1/authenticate', {
-//         method: 'POST',
-//         headers: {
-//             'Accept': 'application/json',
-//             'Content-Type': 'application/json',
-//             'X-CSRF-TOKEN': csrfToken
-//         },
-//         body: JSON.stringify({
-//             token_name: 'user-session-token'  // A dynamic token name or any other parameter if needed
-//         })
-//     });
-// }
-
 function fetchProductsFromAPI(page = 1) {
     const productsAPIToken = 'Bearer ' + localStorage.getItem('user-login-api-token'); // Retrieve the stored API Token from the Local Storage and add the 'Bearer ' prefix to the API Bearer Token
     console.log(productsAPIToken);
@@ -38,34 +23,7 @@ function fetchProductsFromAPI(page = 1) {
     })
     .then(response => response.json())
     .then(jsonResponse => {
-        console.log(jsonResponse);
-
-        /*
-            // Display the products in products/index.blade.php
-            const productsContainer = document.getElementById('products-container');
-            jsonResponse.data.forEach(product => {
-                const productDivElement = document.createElement('div');
-                productDivElement.textContent = `Product ID: ${product.id}, Product Name: ${product.name}, Product Price: ${product.price}, Product Quantity: ${product.quantity}, Product Description: ${product.description}`;
-                productsContainer.appendChild(productDivElement);
-            });
-        */
-
-        // Without Pagination
-        /*
-            const productsTableBody = document.querySelector('#products-table-body');
-            // productsTableBody.innerHTML = ''; // Clear any previous content
-            jsonResponse.data.forEach(product => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${product.id}</td>
-                    <td>${product.name}</td>
-                    <td>${product.description}</td>
-                    <td>${product.price}</td>
-                    <td>${product.quantity}</td>
-                `;
-                productsTableBody.appendChild(row);
-            });
-        */
+        // console.log(jsonResponse);
 
         // With Pagination
         const productsTableBody = document.querySelector('#products-table-body');
@@ -78,6 +36,10 @@ function fetchProductsFromAPI(page = 1) {
                 <td>${product.description}</td>
                 <td>${product.price}</td>
                 <td>${product.quantity}</td>
+                <td>
+                    <button class="edit-button" data-id="${product.id}">Edit</button>
+                    <button class="delete-button" data-id="${product.id}">Delete</button>
+                </td>
             `;
             productsTableBody.appendChild(row);
         });
@@ -86,6 +48,7 @@ function fetchProductsFromAPI(page = 1) {
         renderPagination(jsonResponse.meta); // Pass the paginated 'meta' key value to render pagination controls
     });
 }
+
 
 function renderPagination(jsonResponseMetaKey) {
     const paginationContainer = document.querySelector('#pagination');
@@ -97,14 +60,6 @@ function renderPagination(jsonResponseMetaKey) {
         prevButton.innerHTML = '&laquo; Previous';
         prevButton.onclick = () => fetchProductsFromAPI(jsonResponseMetaKey.current_page - 1);
         paginationContainer.appendChild(prevButton);
-    }
-
-    // Create Next Button
-    if (jsonResponseMetaKey.next_page_url) {
-        const nextButton = document.createElement('button');
-        nextButton.innerHTML = 'Next &raquo;';
-        nextButton.onclick = () => fetchProductsFromAPI(jsonResponseMetaKey.current_page + 1);
-        paginationContainer.appendChild(nextButton);
     }
 
     // Create Page Number Buttons
@@ -120,6 +75,14 @@ function renderPagination(jsonResponseMetaKey) {
             paginationContainer.appendChild(pageButton);
         }
     });
+
+    // Create Next Button
+    if (jsonResponseMetaKey.next_page_url) {
+        const nextButton = document.createElement('button');
+        nextButton.innerHTML = 'Next &raquo;';
+        nextButton.onclick = () => fetchProductsFromAPI(jsonResponseMetaKey.current_page + 1);
+        paginationContainer.appendChild(nextButton);
+    }
 }
 
 
@@ -171,9 +134,48 @@ function authenticateUserWithProductsAPI(loginEmai, loginPassword) {
     });
 }
 
+// Function to handle product deletion
+function deleteProduct(productId) {
+    const productsAPIToken = 'Bearer ' + localStorage.getItem('user-login-api-token'); // Retrieve the token
+    fetch(`http://127.0.0.1:8000/products/${productId}`, {
+        method: 'DELETE',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': productsAPIToken,
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            alert('Product deleted successfully!');
+            fetchProductsFromAPI(); // Refresh the table
+        } else {
+            alert('Failed to delete the product.');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     collectBreezeLoginFormData();
     fetchProductsFromAPI();
-    // getAuthenticationToken(); // Get authentication token when the page is loaded
-    // fetchProductsFromAPI(); // Fetch products when the page is loaded
+
+
+    const productsTableBody = document.querySelector('#products-table-body');
+
+    // Attach event listeners for Edit and Delete buttons
+    productsTableBody.addEventListener('click', (event) => {  // Event Delegation to the table <body> element
+        if (event.target.classList.contains('edit-button')) {
+            // Handle Edit button click
+            const productId = event.target.getAttribute('data-id');
+            window.location.href = `/products/${productId}/edit`; // Redirect to edit page
+        } else if (event.target.classList.contains('delete-button')) {
+            // Handle Delete button click
+            const productId = event.target.getAttribute('data-id');
+            if (confirm('Are you sure you want to delete this product?')) {
+                deleteProduct(productId); // Call the delete function
+            }
+        }
+    });
+
 });
