@@ -102,7 +102,10 @@ function collectBreezeLoginFormData() {
             ;
             console.log(loginEmail, loginPassword, breezeLoginForm);
 
-            authenticateUserWithProductsAPI(loginEmail, loginPassword);
+            // If the 'user-login-api-token' isn't stored in the Local Storage, authenticate the user with the Products API
+            if (localStorage.getItem('user-login-api-token') === null) {
+                authenticateUserWithProductsAPI(loginEmail, loginPassword);
+            }
 
             // Submit Breeze Login Form Programmatically after I prevented its submission (anyway)
             breezeLoginForm.submit();
@@ -110,7 +113,7 @@ function collectBreezeLoginFormData() {
     }
 }
 
-function authenticateUserWithProductsAPI(loginEmai, loginPassword) {
+function authenticateUserWithProductsAPI(loginEmail, loginPassword) {
     fetch('http://127.0.0.1:8000/api/v1/authenticate', {
         method: 'POST',
         headers: {
@@ -118,7 +121,7 @@ function authenticateUserWithProductsAPI(loginEmai, loginPassword) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            email:      loginEmai,
+            email:      loginEmail,
             password:   loginPassword,
             token_name: 'user-session-token'
         })

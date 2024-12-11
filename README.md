@@ -19,7 +19,7 @@ Follow the steps below to set up and run the application locally.
 1. **Clone the repository**:
     ```bash
     git clone https://github.com/AhmedYahyaE/clickshare-e-commerce-product-management-feature.git
-    cd clickshare-e-commerce-product-management-feature-main
+    cd clickshare-e-commerce-product-management-feature
     ```
 
 2. **Install dependencies**:
@@ -33,7 +33,13 @@ Follow the steps below to set up and run the application locally.
     cp .env.example .env
     ```
 
-4. **Configure the database**:
+4. **Generate the application key**:  
+    This step generates a unique application key for encryption:  
+    ```bash
+    php artisan key:generate
+    ```
+
+5. **Configure the database**:
     Open the `.env` file and set your database credentials:
     ```env
     DB_CONNECTION=mysql
@@ -44,33 +50,33 @@ Follow the steps below to set up and run the application locally.
     DB_PASSWORD=your_database_password
     ```
 
-5. **Migrate the database**:
+6. **Migrate the database**:
     Run the migrations to create the necessary tables:
     ```bash
     php artisan migrate
     ```
 
-6. **Seed the database**:
+7. **Seed the database**:
     ```bash
     php artisan db:seed
     ```
 
-7. **Install frontend dependencies**:
+8. **Install frontend dependencies**:
     ```bash
     npm install
     ```
 
-8. **Build Vite assets** (for frontend):
+9. **Build Vite assets** (for frontend):
     ```bash
     npm run build
     ```
 
-9. **Start the Laravel development server**:
+10. **Start the Laravel development server**:
     ```bash
     php artisan serve
     ```
 
-Now, your application should be running locally at `http://localhost:8000`. To experiment with the application, you can either register a new user, or use the following existing user credentials: Emai: ahmed.yahya@example-email.com, Password: 123456
+Now, your application should be running locally at `http://localhost:8000`. To experiment with the application, you can either register a new user, or use the following existing user credentials: Email: ahmed.yahya@example-email.com, Password: 123456
 
 ## Products API Documentation:
 
