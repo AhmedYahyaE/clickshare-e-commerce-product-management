@@ -56,7 +56,6 @@ Follow the steps below to set up and run the application locally.
     ```
 
 7. **Install frontend dependencies**:
-    If using Vite (with Laravel Mix), install frontend dependencies:
     ```bash
     npm install
     ```
