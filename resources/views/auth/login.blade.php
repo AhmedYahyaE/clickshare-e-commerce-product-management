@@ -2,7 +2,7 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}">
+    <form id="breeze-login-form" method="POST" action="{{ route('login') }}">
         @csrf
 
         <!-- Email Address -->
@@ -42,6 +42,16 @@
             <x-primary-button class="ms-3">
                 {{ __('Log in') }}
             </x-primary-button>
+
+
+
+            <!-- Register Button -->
+            <x-primary-button class="ms-3 bg-gray-600 text-white hover:bg-gray-500">
+                <a href="{{ route('register') }}">{{ __('Register') }}</a>
+            </x-primary-button>
+
+
+
         </div>
     </form>
 </x-guest-layout>

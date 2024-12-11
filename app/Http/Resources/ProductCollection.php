@@ -14,14 +14,14 @@ class ProductCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        // return parent::toArray($request); // Default
+        return parent::toArray($request); // Default ('data', 'links', 'meta','path', 'per_page', 'to', and 'total' keys)
 
         // Create a custom response ('meta' data key) along with the collection
-        return [
-            'data' => $this->collection,
-            'meta' => [
-                'count' => $this->count()
-            ]
-        ];
+        // return [
+        //     'data' => $this->collection,
+        //     'meta' => [
+        //         'count' => $this->count()
+        //     ]
+        // ];
     }
 }

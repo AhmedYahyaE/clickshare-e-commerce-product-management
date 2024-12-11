@@ -19,7 +19,8 @@ class ProductAPIController extends Controller
 
 
     public function index(): ProductCollection {
-        return new ProductCollection($this->productRepositoryInstance->all());
+        // return new ProductCollection($this->productRepositoryInstance->all()); // Without Pagination
+        return new ProductCollection($this->productRepositoryInstance->allPaginated(10)); // With Pagination
     }
 
 }

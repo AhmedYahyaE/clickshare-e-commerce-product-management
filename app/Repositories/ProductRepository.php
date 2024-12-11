@@ -17,4 +17,8 @@ class ProductRepository implements ProductRepositoryInterface {
         return $this->productModel->all();
     }
 
+    public function allPaginated(int $perPage) {
+        return $this->productModel->paginate($perPage);
+    }
+
 }
