@@ -75,4 +75,4 @@ Now, your application should be running locally at `http://localhost:8000`. To e
 ## Products API Documentation:
 
 You can access this applications API Documentation using L5 Swagger running locally on `http://localhost:8000/api/documentation`.
-Note:
+Note: To accesss the GET /api/v1/products API endpoint, you must send the 'Authorization' Header with your HTTP request with the value you received from the POST /api/authenticate endpoint.
