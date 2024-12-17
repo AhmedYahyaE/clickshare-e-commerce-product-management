@@ -1,6 +1,6 @@
 # ClickShare E-Commerce Product Management Feature Application
 
-This is ClickShare E-Commerce product management application built with **Laravel 11**. It provides an API and web interface to manage products.
+This is ClickShare E-Commerce product management application built with **Laravel 11**. It provides a REST API and web interface to manage products. User registration and login functionality using Laravel's built-in authentication system implemented. Implmented a JavaScript feature to consume the products API with Authentication and Pagination to display them. API Token-based Authentication implemented using Sanctum package. Both client-side & server-side validation implemented.
 
 
 ## Technical Features
