@@ -84,6 +84,6 @@ You can access this applications API Documentation using L5 Swagger running loca
 
 Note 1: Make sure to include the "Accept : application/json" Header with all your requests.
 
-Note2: To accesss the GET /api/v1/products API endpoint, you must send the 'Authorization' Header with your HTTP request with the value you received from the POST /api/authenticate endpoint.
+Note 2: To accesss the GET /api/v1/products API endpoint, you must send the 'Authorization' Header with your HTTP request with the value you received from the POST /api/authenticate endpoint.
 
 Check my Postman Collection of the API on: https://web.postman.co/workspace/My-Public-Portfolio-Postman-Wor~1b5d7508-dbfc-423a-91f3-8f14b2a483d5/collection/28181483-9186a5fb-1e0a-4edd-8bc0-3d7d1bbf7070
