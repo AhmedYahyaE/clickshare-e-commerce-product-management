@@ -15,6 +15,7 @@ use App\Http\Controllers\API\APIAuthenticationController;
 
 
 // Products API Routes
+// N.B. "Accept: application/json" Header must be sent with ALL HTTP Requests
 Route::
     prefix('v1') // Apply API Versioning ('v1')
     ->group(function() {
